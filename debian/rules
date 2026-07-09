@@ -1,0 +1,32 @@
+#!/usr/bin/make -f
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+ZELLIJ_VERSION := $(shell dpkg-parsechangelog -S Version | sed 's/[-~].*//')
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	@arch="$(DEB_HOST_ARCH)"; \
+	case "$$arch" in \
+		amd64) ZELLIJ_RELEASE="zellij-x86_64-unknown-linux-musl" ;; \
+		arm64) ZELLIJ_RELEASE="zellij-aarch64-unknown-linux-musl" ;; \
+		*) echo "Unsupported architecture: $$arch"; exit 1 ;; \
+	esac; \
+	echo "Downloading $$ZELLIJ_RELEASE for v$(ZELLIJ_VERSION)..."; \
+	wget -q "https://github.com/zellij-org/zellij/releases/download/v$(ZELLIJ_VERSION)/$$ZELLIJ_RELEASE.tar.gz"; \
+	tar -xf "$$ZELLIJ_RELEASE.tar.gz"; \
+	rm -f "$$ZELLIJ_RELEASE.tar.gz"
+
+override_dh_auto_install:
+	install -D -m 755 zellij debian/zellij/usr/bin/zellij
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+	@rm -f zellij || true
+
+override_dh_strip:
+
+override_dh_shlibdeps:

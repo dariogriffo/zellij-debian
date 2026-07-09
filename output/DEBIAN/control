@@ -1,0 +1,9 @@
+Section: utils
+Priority: optional
+Maintainer: Dario Griffo <dariogriffo@gmail.com>
+Homepage: https://github.com/zellij-org/zellij
+Package: zellij
+Version: zellij_VERSION-BUILD_VERSION+DIST
+Architecture: SUPPORTED_ARCHITECTURES
+Description: A terminal workspace with batteries included.
+
