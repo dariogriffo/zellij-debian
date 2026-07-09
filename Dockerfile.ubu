@@ -1,0 +1,36 @@
+ARG UBUNTU_DIST=noble
+FROM ubuntu:noble
+
+ARG UBUNTU_DIST
+ARG zellij_VERSION
+ARG BUILD_VERSION
+ARG FULL_VERSION
+ARG ARCH
+ARG ZELLIJ_RELEASE
+
+# TODO: implement zellij build.
+# This Dockerfile mirrors uv-debian's structure but is not wired up to any
+# real build logic yet: build_debian.sh currently exits before invoking
+# `docker build`, and the output/ packaging skeleton below has not been
+# created for zellij. Fill in output/DEBIAN/control, output/copyright,
+# output/changelog.Debian and output/README.md, then point COPY at the
+# downloaded zellij release, before using this file.
+
+RUN mkdir -p /output/usr/bin
+RUN mkdir -p /output/usr/share/doc/zellij
+RUN mkdir -p /output/DEBIAN
+
+# COPY ${ZELLIJ_RELEASE}/* /output/usr/bin/
+# COPY output/DEBIAN/control /output/DEBIAN/
+# COPY output/copyright /output/usr/share/doc/zellij/
+# COPY output/changelog.Debian /output/usr/share/doc/zellij/
+# COPY output/README.md /output/usr/share/doc/zellij/
+
+# RUN sed -i "s/DIST/$UBUNTU_DIST/" /output/usr/share/doc/zellij/changelog.Debian
+# RUN sed -i "s/FULL_VERSION/$FULL_VERSION/" /output/usr/share/doc/zellij/changelog.Debian
+# RUN sed -i "s/DIST/$UBUNTU_DIST/" /output/DEBIAN/control
+# RUN sed -i "s/zellij_VERSION/$zellij_VERSION/" /output/DEBIAN/control
+# RUN sed -i "s/BUILD_VERSION/$BUILD_VERSION/" /output/DEBIAN/control
+# RUN sed -i "s/SUPPORTED_ARCHITECTURES/$ARCH/" /output/DEBIAN/control
+
+# RUN dpkg-deb --build /output /zellij_${FULL_VERSION}.deb
