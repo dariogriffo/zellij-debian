@@ -13,6 +13,8 @@ RUN mkdir -p /output/DEBIAN
 
 COPY zellij /output/usr/bin/zellij
 COPY output/DEBIAN/control /output/DEBIAN/
+COPY output/DEBIAN/postinst /output/DEBIAN/postinst
+RUN chmod 755 /output/DEBIAN/postinst
 COPY output/copyright /output/usr/share/doc/zellij/
 COPY output/changelog.Debian /output/usr/share/doc/zellij/
 COPY output/README.md /output/usr/share/doc/zellij/
